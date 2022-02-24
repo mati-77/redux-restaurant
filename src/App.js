@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import "./App.css";
+import CustomerCard from "./components/CustomerCard";
 import ReservationCard from "./components/ReservationCard";
 import { addReservation } from "./features/reservationSlice";//importamos y accedemos a este metodo
 
@@ -9,7 +10,13 @@ function App() {
 
   const [reservationNameInput, setReservationNameInput] = useState("")
 
-  const reservations = useSelector((state) => state.reservations.value)//reservations es el nombre del slice
+  const reservations = useSelector(
+    (state) => state.reservations.value
+  )//reservations es el nombre del slice, como aparece en el objeto reducer en la store
+
+  const customers = useSelector(
+    (state) => state.customer.value
+  )
 
   const dispatch = useDispatch()
 
@@ -42,16 +49,9 @@ function App() {
           </div>
         </div>
         <div className="customer-food-container">
-          <div className="customer-food-card-container">
-            <p>Selena Gomez</p>
-            <div className="customer-foods-container">
-              <div className="customer-food"></div>
-              <div className="customer-food-input-container">
-                <input />
-                <button>Add</button>
-              </div>
-            </div>
-          </div>
+          {customers.map(customer => {
+            return <CustomerCard />
+          })}
         </div>
       </div>
     </div>
