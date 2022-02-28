@@ -1,14 +1,38 @@
 import React from 'react'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addFoodToCustomer } from '../features/customerSlice'
 
-export default function CustomerCard() {
+export default function CustomerCard({ id, name, food }) {
+
+  const dispatch = useDispatch()
+
+  const [customerFoodInput, setCustomerFoodInput] = useState([])
+
+
   return (
     <div className="customer-food-card-container">
-        <p>Selena Gomez</p>
+        <p>{name}</p>
         <div className="customer-foods-container">
-            <div className="customer-food"></div>
+            <div className="customer-food">
+              {food.map(food => {
+                return <p>{food}</p>
+              })}
+            </div>
             <div className="customer-food-input-container">
-                <input />
-                <button>Add</button>
+                <input 
+                  value={customerFoodInput}
+                  onChange={(e) => setCustomerFoodInput(e.target.value)}
+                />
+                <button onClick={() => {
+                  if(!customerFoodInput)return;
+                  dispatch(addFoodToCustomer({
+                    id,
+                    food:customerFoodInput
+                  }))
+                  setCustomerFoodInput("")
+                }}
+                >Add</button>
             </div>
         </div>
     </div>
